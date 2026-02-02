@@ -17,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/companies', require('./routes/companies'));
+app.use('/api/invoices', require('./routes/invoices'));
 
 // Basic route
 app.get('/', (req, res) => {
