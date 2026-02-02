@@ -53,6 +53,9 @@ const invoiceSchema = new mongoose.Schema({
     default: 'pending'
   },
   
+  // DIAN fields
+  cufe: String, // Código Único de Facturación Electrónica
+  
   currency: { type: String, default: 'COP' }
 }, {
   timestamps: true

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Invoice = require('../models/Invoice');
 const Company = require('../models/Company');
+const dianService = require('../services/dianService');
 
 // Get all invoices
 router.get('/', async (req, res) => {
@@ -55,6 +56,40 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Invoice not found' });
     }
     res.json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Send invoice to DIAN
+router.post('/:id/send-to-dian', async (req, res) => {
+  try {
+    const invoice = await Invoice.findById(req.params.id).populate('issuer');
+    if (!invoice) {
+      return res.status(404).json({ error: 'Invoice not found' });
+    }
+
+    const company = invoice.issuer;
+
+    // Generate UBL XML
+    const xmlContent = dianService.generateUBLXML(invoice, company);
+    
+    // Send to DIAN
+    const dianResponse = await dianService.sendInvoiceToDian(xmlContent, invoice);
+
+    // Update invoice with DIAN response
+    invoice.dianStatus = dianResponse.isValid ? 'approved' : 'rejected';
+    if (dianResponse.cufe) {
+      invoice.cufe = dianResponse.cufe;
+    }
+    
+    await invoice.save();
+
+    res.json({
+      success: dianResponse.isValid,
+      invoice,
+      dianResponse
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
