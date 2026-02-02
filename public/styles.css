@@ -1,0 +1,117 @@
+/* Custom styles for DIAN Electronic Invoicing */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.content-section {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 0.5rem !important;
+    margin-bottom: 0.25rem;
+}
+
+.list-group-item.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.list-group-item:hover:not(.active) {
+    background-color: #e9ecef;
+}
+
+.dashboard-card {
+    border-radius: 1rem;
+    border: none;
+}
+
+.dashboard-card .card-body {
+    padding: 2rem;
+}
+
+.dashboard-card h4 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}
+
+.btn-action {
+    border-radius: 2rem;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+}
+
+.invoice-card, .company-card {
+    border-left: 4px solid #0d6efd;
+    transition: all 0.3s ease;
+}
+
+.invoice-card:hover, .company-card:hover {
+    border-left-color: #0a58ca;
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Status colors */
+.status-pending { background-color: #ffc107; color: #000; }
+.status-sent { background-color: #0dcaf0; color: #000; }
+.status-approved { background-color: #198754; color: #fff; }
+.status-rejected { background-color: #dc3545; color: #fff; }
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .dashboard-card h4 {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
