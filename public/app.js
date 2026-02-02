@@ -95,10 +95,25 @@ function renderInvoices() {
         card.className = 'card mb-3';
         card.innerHTML = `
             <div class="card-body">
-                <h5 class="card-title">${invoice.number}</h5>
-                <p class="card-text">Customer: ${invoice.customer.name}</p>
-                <p class="card-text">Total: $${invoice.total.toLocaleString()}</p>
-                <span class="badge bg-${getStatusColor(invoice.dianStatus)}">${invoice.dianStatus}</span>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h5 class="card-title">${invoice.number}</h5>
+                        <p class="card-text">Customer: ${invoice.customer.name}</p>
+                        <p class="card-text">Total: $${invoice.total.toLocaleString()}</p>
+                        <span class="badge bg-${getStatusColor(invoice.dianStatus)}">${invoice.dianStatus}</span>
+                        ${invoice.cufe ? `<br><small class="text-muted">CUFE: ${invoice.cufe}</small>` : ''}
+                    </div>
+                    <div>
+                        ${invoice.dianStatus === 'pending' ? 
+                            `<button class="btn btn-success btn-sm" onclick="sendToDian('${invoice._id}')">
+                                <i class="fas fa-paper-plane me-1"></i>Send to DIAN
+                            </button>` : 
+                            `<button class="btn btn-secondary btn-sm" disabled>
+                                <i class="fas fa-check me-1"></i>Sent
+                            </button>`
+                        }
+                    </div>
+                </div>
             </div>
         `;
         container.appendChild(card);
@@ -122,4 +137,29 @@ function showCreateCompanyModal() {
 
 function showCreateInvoiceModal() {
     alert('Invoice creation modal - Coming soon!');
+}
+
+// Send invoice to DIAN
+async function sendToDian(invoiceId) {
+    if (!confirm('Are you sure you want to send this invoice to DIAN?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/invoices/${invoiceId}/send-to-dian`, {
+            method: 'POST'
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Invoice sent successfully to DIAN!');
+            loadInvoices(); // Refresh the list
+            loadDashboard(); // Update dashboard
+        } else {
+            alert('Error sending invoice to DIAN: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        alert('Error sending invoice: ' + error.message);
+    }
 }
