@@ -15,6 +15,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dian_invo
 app.use(cors());
 app.use(express.json());
 
+// Routes
+app.use('/api/companies', require('./routes/companies'));
+
 // Basic route
 app.get('/', (req, res) => {
   res.json({ 
