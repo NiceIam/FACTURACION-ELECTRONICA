@@ -1,0 +1,13 @@
+{
+  "name": "dian-electronic-invoicing",
+  "version": "0.1.0",
+  "description": "Sistema de facturación electrónica para Colombia - DIAN",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["DIAN", "facturación", "Colombia", "UBL"],
+  "author": "Tu Nombre",
+  "license": "MIT"
+}
