@@ -14,6 +14,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dian_invo
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 // Routes
 app.use('/api/companies', require('./routes/companies'));
